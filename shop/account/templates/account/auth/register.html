@@ -33,6 +33,12 @@
                             <label for="{{ form.email.id_for_label }}">آدرس ایمیل</label>
                         </div>
 
+
+                        <div class="form-label-group">
+                            {{ form.phone_number }}
+                            <label for="{{ form.phone_number.id_for_label }}">شماره تلفن</label>
+                        </div>
+
                         <div class="form-label-group">
                             {{ form.password1 }}
                             <label for="{{ form.password1.id_for_label }}">کلمه عبور</label>
@@ -43,11 +49,7 @@
                             <label for="{{ form.password2.id_for_label }}">تایید کلمه عبور</label>
                         </div>
                         <hr>
-                        <p class="text-center">
-                            <a href="#" class="btn btn-secondary btn-sm">ورود به سایت</a>
-                            <a href="#" class="btn btn-info">بازگشت به خانه</a> 
-                            
-                        </p>
+                       
                         <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">ثبت نام</button>
 
                     </form>
