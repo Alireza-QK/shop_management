@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import FormView
+from django.views.generic import CreateView, FormView
+from django.contrib.auth.views import LoginView
 from .models import User
 
 
-class LoginView(FormView):
+class UserRegisterView(LoginView):
     model = User
-    fields = ('username', 'frist_name', 'last_name', 'email', 'phone_number')
     template_name = 'account/auth/register.html'
-
+    # form_class = User
+    fields = ('username', 'email', 'phone_number')
