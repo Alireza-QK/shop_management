@@ -10,5 +10,5 @@ class User(AbstractUser):
 
     class Meta:
         db_table = 'account_user'
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
+        verbose_name = 'کاربر'
+        verbose_name_plural = 'کاربر ها'
