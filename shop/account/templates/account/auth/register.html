@@ -9,21 +9,45 @@
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
                 <div class="card-body">
+                 
                     <h5 class="card-title text-center">ثبت نام کاربران</h5>
                     <form class="form-signin" method="post">
-                       
+                       {% csrf_token %}
                         <div class="form-label-group">
-                            <input type="email" id="inputEmail" class="form-control" placeholder="آدرس اییمل"
-                                required autofocus>
-                            <label for="inputEmail">آدرس ایمیل</label>
+                            {{ form.first_name }}
+                            <label for="{{ form.first_name.id_for_label }}">نام</label>
                         </div>
 
                         <div class="form-label-group">
-                            <input type="password" id="inputPassword" class="form-control" placeholder="کلمه عبور"
-                                required>
-                            <label for="inputPassword">کلمه عبور</label>
+                            {{ form.last_name }}
+                            <label for="{{ form.last_name.id_for_label }}">نام خانوادگی</label>
                         </div>
 
+                        <div class="form-label-group">
+                            {{ form.username }}
+                            <label for="{{ form.username.id_for_label }}">نام کاربری</label>
+                        </div>
+
+                        <div class="form-label-group">
+                            {{ form.email }}
+                            <label for="{{ form.email.id_for_label }}">آدرس ایمیل</label>
+                        </div>
+
+                        <div class="form-label-group">
+                            {{ form.password1 }}
+                            <label for="{{ form.password1.id_for_label }}">کلمه عبور</label>
+                        </div>
+
+                        <div class="form-label-group">
+                            {{ form.password2 }}
+                            <label for="{{ form.password2.id_for_label }}">تایید کلمه عبور</label>
+                        </div>
+                        <hr>
+                        <p class="text-center">
+                            <a href="#" class="btn btn-secondary btn-sm">ورود به سایت</a>
+                            <a href="#" class="btn btn-info">بازگشت به خانه</a> 
+                            
+                        </p>
                         <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">ثبت نام</button>
 
                     </form>
