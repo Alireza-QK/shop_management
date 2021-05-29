@@ -1,12 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" href="{% static 'shop/css/bootstrap-rtl.min.css' %}">
+	<link rel="stylesheet" href="{% static 'shop/css/styles.css' %}">
+	{% block ref_css %}{% endblock %}
 </head>
 <body>
-	
+	{% block context %}{% endblock %}
+	<script src="{% static 'shop/js/jquery.js' %}"></script>
+	<script src="{% static 'shop/js/bootstrap.bundle.min.js' %}"></script>
+	{% block ref_js %}{% endblock %}
 </body>
 </html>
