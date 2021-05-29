@@ -140,3 +140,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Account user
 AUTH_USER_MODEL = 'account.user'
+
+# Set config email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Mailtrap
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = '13ce2d050cefd7'
+EMAIL_HOST_PASSWORD = '95806761f5d03e'
+EMAIL_PORT = '2525'
