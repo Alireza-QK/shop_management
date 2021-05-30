@@ -50,6 +50,11 @@ class LoginUserForm(forms.ModelForm):
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
 	
+	password = forms.CharField(
+        widget=forms.PasswordInput(),
+        label='کلمه عبور'
+    )
+	
 	class Meta:
 		model = User
 		fields = ('username', 'password')
