@@ -60,16 +60,13 @@ class UserLoginView(FormView):
 	form_class = LoginUserForm
 	template_name = 'account/auth/login.html'
 
-	def form_valid(self, form):
-		response = super().form_valid(form)
+	def get(self, request, *args, **kwargs):
+		form = self.form_class
+		context = {
+			'form': form
+		}
+		return render(request, self.template_name, context)
 
-		if form.is_valid():
-			username = form.cleaned_data.get('username')
-			password = form.cleaned_data.get('password')
-			user = authenticate(self.request, username, password)
-			
-			print(user)
-			
 
 def activate(request, uidb64, token):
 	try:
