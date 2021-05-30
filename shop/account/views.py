@@ -54,6 +54,18 @@ class UserRegisterView(CreateView):
 		
 		return render(self.request, self.template_name, context)
 
+	def get(self, request, *args, **kwargs):
+
+		if request.user.is_authenticated:
+			return redirect('/')
+
+		form = self.form_class
+		context = {
+			'form': form
+		}
+
+		return render(request, self.template_name, context)
+
 
 class UserLoginView(FormView):
 	model = User
@@ -94,7 +106,8 @@ class UserLoginView(FormView):
 
 
 def logoutUser(request):
-	logout(request.user)
+	logout(request)
+	messages.info(request, "شما با موفقیت از سایت خارج شدید.") 
 	return redirect('account:login')
 
 
