@@ -27,9 +27,15 @@ class RegisterUserForm(UserCreationForm):
 		fields = ('first_name', 'last_name', 'username', 'email', 'phone_number')
 	
 	def clean_phone_number(self):
-		phone_number = cleaned_data.get('phone_number')
+		phone_number = self.cleaned_data.get('phone_number')
 		
 		if User.objects.filter(phone_number=phone_number).exists():
 			raise forms.ValidationError('شما قبلا تر ثبت نام کردید لطفا وارد حساب شوید.')
 		return phone_number
-	
+
+	def clean_email(self):
+		email = self.cleaned_data.get('email')
+		
+		if User.objects.filter(email=email).exists():
+			raise forms.ValidationError('شما قبلا تر ثبت نام کردید لطفا وارد حساب شوید.')
+		return email
