@@ -41,20 +41,15 @@ class RegisterUserForm(UserCreationForm):
 		return email
 
 
-class LoginUserForm(forms.ModelForm):
+class LoginUserForm(forms.Form):
 
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-		self.fields['username'].help_text = ''
-		self.fields['password'].help_text = ''
-		for visible in self.visible_fields():
-			visible.field.widget.attrs['class'] = 'form-control'
-	
+	username = forms.CharField(
+		max_length=125,
+		widget=forms.TextInput(attrs={'class': 'form-control'}),
+		label='نام کاربری'
+	)
 	password = forms.CharField(
-        widget=forms.PasswordInput(),
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         label='کلمه عبور'
     )
 	
-	class Meta:
-		model = User
-		fields = ('username', 'password')
