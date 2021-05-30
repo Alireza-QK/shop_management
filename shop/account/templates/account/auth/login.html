@@ -1,0 +1,38 @@
+{% extends 'account/master.html' %}
+
+{% block title %} صفحه ورود کاربران | مدیریت فروشگاه {% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                 
+                    <h5 class="card-title text-center">ورود کاربران</h5>
+                    <form class="form-signin" method="post">
+                       {% csrf_token %}
+
+                        <div class="form-label-group">
+                            {{ form.username }}
+                            <label for="{{ form.username.id_for_label }}">نام کاربری</label>
+                            {{ form.username.errors }}
+                        </div>
+
+                        <div class="form-label-group">
+                            {{ form.password2 }}
+                            <label for="{{ form.password.id_for_label }}">کلمه عبور</label>
+                            {{ form.password.errors }}
+                        </div>
+                        <hr>
+                       
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">ورود به سایت</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
