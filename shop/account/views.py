@@ -93,6 +93,11 @@ class UserLoginView(FormView):
 		return render(request, self.template_name, context)
 
 
+def logoutUser(request):
+	logout(request.user)
+	return redirect('account:login')
+
+
 def activate(request, uidb64, token):
 	try:
 		uid = urlsafe_base64_decode(uidb64).decode()
