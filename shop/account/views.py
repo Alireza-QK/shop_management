@@ -76,13 +76,19 @@ class UserLoginView(FormView):
 
 		# print(request.POST)
 		if form.is_valid():
-			username = form.cleaned_data.get('username')
-			password = form.cleaned_data.get('password')
-			user = authenticate(request, username=username, password=password)
-			# print(isinstance(user, User))
-			if not user.is_active:
+			try:
+				username = form.cleaned_data.get('username')
+				password = form.cleaned_data.get('password')
+				user = authenticate(request, username=username, password=password)
+				print(isinstance(user, User))
+				print(user)
+				if not user.is_active:
+					messages.add_message(request, messages.WARNING, 'حساب شما غیر فعال است.')
+					raise ValidationError('حساب شما غیر فعال است.')
+				print(user)
+			except:
 				messages.add_message(request, messages.WARNING, 'حساب شما غیر فعال است.')
-			
+				render(request, self.template_name, context)
 
 		return render(request, self.template_name, context)
 
