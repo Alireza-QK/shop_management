@@ -65,4 +65,4 @@ def activate(request, uidb64, token):
 		user.save()
 		return render(request, 'account/auth/active_link.html')
 	else:
-		return HttpResponse('Activation link is invalid!')
+		return render(request, 'account/auth/invalid_active.html')
