@@ -66,6 +66,18 @@ class UserLoginView(FormView):
 			'form': form
 		}
 		return render(request, self.template_name, context)
+	
+	def post(self, request, *args, **kwargs):
+		form = LoginUserForm(request.POST or None)
+		context = {
+			'form': form
+		}
+
+		# print(request.POST)
+		if form.is_valid():
+			print(form.cleaned_data.get('username'))
+
+		return render(request, self.template_name, context)
 
 
 def activate(request, uidb64, token):
