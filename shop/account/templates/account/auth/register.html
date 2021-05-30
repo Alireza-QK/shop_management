@@ -16,37 +16,44 @@
                         <div class="form-label-group">
                             {{ form.first_name }}
                             <label for="{{ form.first_name.id_for_label }}">نام</label>
+                            {{ form.first_name.errors }}
                         </div>
 
                         <div class="form-label-group">
                             {{ form.last_name }}
                             <label for="{{ form.last_name.id_for_label }}">نام خانوادگی</label>
+                            {{ form.last_name.errors }}
                         </div>
 
                         <div class="form-label-group">
                             {{ form.username }}
                             <label for="{{ form.username.id_for_label }}">نام کاربری</label>
+                            {{ form.username.errors }}
                         </div>
 
                         <div class="form-label-group">
                             {{ form.email }}
                             <label for="{{ form.email.id_for_label }}">آدرس ایمیل</label>
+                            {{ form.email.errors }}
                         </div>
 
 
                         <div class="form-label-group">
                             {{ form.phone_number }}
                             <label for="{{ form.phone_number.id_for_label }}">شماره تلفن</label>
+                            {{ form.phone_number.errors }}
                         </div>
 
                         <div class="form-label-group">
                             {{ form.password1 }}
                             <label for="{{ form.password1.id_for_label }}">کلمه عبور</label>
+                            {{ form.password1.errors }}
                         </div>
 
                         <div class="form-label-group">
                             {{ form.password2 }}
                             <label for="{{ form.password2.id_for_label }}">تایید کلمه عبور</label>
+                            {{ form.password2.errors }}
                         </div>
                         <hr>
                        
