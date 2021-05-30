@@ -1,10 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import CreateView, FormView
 from django.contrib.auth.views import LoginView
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.contrib.auth import login, authenticate, logout
@@ -62,6 +61,11 @@ class UserLoginView(FormView):
 	template_name = 'account/auth/login.html'
 
 	def get(self, request, *args, **kwargs):
+
+		# check user is already login
+		if request.user.is_authenticated:
+			return redirect('/')
+
 		form = self.form_class
 		context = {
 			'form': form
@@ -76,19 +80,15 @@ class UserLoginView(FormView):
 
 		# print(request.POST)
 		if form.is_valid():
-			try:
-				username = form.cleaned_data.get('username')
-				password = form.cleaned_data.get('password')
-				user = authenticate(request, username=username, password=password)
-				print(isinstance(user, User))
-				print(user)
-				if not user.is_active:
-					messages.add_message(request, messages.WARNING, 'حساب شما غیر فعال است.')
-					raise ValidationError('حساب شما غیر فعال است.')
-				print(user)
-			except:
-				messages.add_message(request, messages.WARNING, 'حساب شما غیر فعال است.')
-				render(request, self.template_name, context)
+			username = form.cleaned_data.get('username')
+			password = form.cleaned_data.get('password')
+			user = authenticate(request, username=username, password=password)
+			
+			if user is not None:
+				loginUser = login(request, user)
+				return redirect('/')
+			else:
+				messages.add_message(request, messages.WARNING, 'همچین کاربری یافت نشد.')
 
 		return render(request, self.template_name, context)
 
