@@ -7,8 +7,9 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
+from django.contrib import messages
+from django.core.exceptions import ValidationError
 from .models import User
 from .forms import RegisterUserForm, LoginUserForm
 from .utils import account_activation_token
@@ -75,7 +76,13 @@ class UserLoginView(FormView):
 
 		# print(request.POST)
 		if form.is_valid():
-			print(form.cleaned_data.get('username'))
+			username = form.cleaned_data.get('username')
+			password = form.cleaned_data.get('password')
+			user = authenticate(request, username=username, password=password)
+			# print(isinstance(user, User))
+			if not user.is_active:
+				messages.add_message(request, messages.WARNING, 'حساب شما غیر فعال است.')
+			
 
 		return render(request, self.template_name, context)
 
