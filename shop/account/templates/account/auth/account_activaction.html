@@ -1,6 +1,13 @@
 {% autoescape off %}  
 سلام {{ user.username }}, 
 
-لطفا برای فعال سازی حساب کاربری خود روی لینک کلیک نمایید, http://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}  
+<p>
+    لطفا برای تائد حساب کاربری خود بر روی لینک زیر کلیک نمایید. با تشکر
+    <hr>
+    <br>
+    <h4>سایت مدیریت فروشگاه</h4>
+    <address>{{ domain }}</address>
+</p>
+ http://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}  
 
 {% endautoescape %}
