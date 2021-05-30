@@ -8,6 +8,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+from django.contrib.auth import login, authenticate, logout
 from .models import User
 from .forms import RegisterUserForm, LoginUserForm
 from .utils import account_activation_token
