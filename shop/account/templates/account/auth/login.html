@@ -21,12 +21,15 @@
                         </div>
 
                         <div class="form-label-group">
-                            {{ form.password2 }}
+                            {{ form.password }}
                             <label for="{{ form.password.id_for_label }}">کلمه عبور</label>
                             {{ form.password.errors }}
                         </div>
                         <hr>
-                       
+                        <p class="text-center">
+                            <a href="#" class="text-danger">فراموشی کلمه عبور</a> |
+                            <a href="#">ایجاد حساب کاری جدید</a>
+                        </p>
                         <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">ورود به سایت</button>
 
                     </form>
