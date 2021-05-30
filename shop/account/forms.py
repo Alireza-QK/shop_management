@@ -11,8 +11,25 @@ class RegisterUserForm(UserCreationForm):
 		self.fields['password2'].help_text = ''
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
+	
+	phone_number = forms.RegexField(
+		regex=r'(0|\+98)?([ ]|,|-|[()]){0,2}9[1|2|3|4]([ ]|,|-|[()]){0,2}(?:[0-9]([ ]|,|-|[()]){0,2}){8}',
+		label='شماره موبایل',
+		help_text='لطفا یک شماره موبایل درست و ایرانی وارد کنید',
+		# widget=forms.NumberInput(attrs={'class': 'form-control'}),
+		error_messages={
+			'invalid': 'شماره موبایل معتبر نمی باشد.'
+		}
+	)
 
 	class Meta:
 		model = User
 		fields = ('first_name', 'last_name', 'username', 'email', 'phone_number')
+	
+	def clean_phone_number(self):
+		phone_number = cleaned_data.get('phone_number')
+		
+		if User.objects.filter(phone_number=phone_number).exists():
+			raise forms.ValidationError('شما قبلا تر ثبت نام کردید لطفا وارد حساب شوید.')
+		return phone_number
 	
