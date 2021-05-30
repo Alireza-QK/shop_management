@@ -9,7 +9,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from .models import User
-from .forms import RegisterUserForm
+from .forms import RegisterUserForm, LoginUserForm
 from .utils import account_activation_token
 
 
@@ -52,6 +52,12 @@ class UserRegisterView(CreateView):
 		}
 		
 		return render(self.request, self.template_name, context)
+
+
+class UserLoginView(FormView):
+	model = User
+	form_class = LoginUserForm
+	template_name = 'account/auth/login.html'
 
 
 def activate(request, uidb64, token):
