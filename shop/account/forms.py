@@ -39,3 +39,17 @@ class RegisterUserForm(UserCreationForm):
 		if User.objects.filter(email=email).exists():
 			raise forms.ValidationError('شما قبلا تر ثبت نام کردید لطفا وارد حساب شوید.')
 		return email
+
+
+class LoginUserForm(forms.ModelForm):
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['username'].help_text = ''
+		self.fields['password'].help_text = ''
+		for visible in self.visible_fields():
+			visible.field.widget.attrs['class'] = 'form-control'
+	
+	class Meta:
+		model = User
+		fields = ('username', 'password')
