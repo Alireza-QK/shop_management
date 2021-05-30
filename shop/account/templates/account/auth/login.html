@@ -11,6 +11,7 @@
                 <div class="card-body">
                  
                     <h5 class="card-title text-center">ورود کاربران</h5>
+                    {% include 'account/auth/_messages.html' %}
                     <form class="form-signin" method="post">
                        {% csrf_token %}
 
