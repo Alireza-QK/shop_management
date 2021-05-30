@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
 	# Our apps
 	'account.apps.AccountConfig',
+	'product.apps.ProductConfig',
 ]
 
 MIDDLEWARE = [
