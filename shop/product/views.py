@@ -5,4 +5,4 @@ from .models import Product, GalleryProduct
 
 class ProductListView(ListView):
 	model = Product
-	template_name = 'product/home.html'
+	template_name = 'product/product_list.html'
