@@ -39,6 +39,7 @@ class GalleryProduct(models.Model):
 		verbose_name_plural = 'گالری ها'
 
 
+# *********************** Section for model Product ***********************
 @receiver(pre_save, sender=Product)
 def pre_save_product(sender, instance, **kwargs):
 	image = Image.open(instance.image)
@@ -56,3 +57,11 @@ def pre_delete_product(sender, instance, **kwargs):
 	if object_current:
 		os.remove(object_current.image.path)
 		os.remove(object_current.thumbnail.path)
+
+
+# *********************** Section for model GalleryProduct ***********************
+@receiver(pre_delete, sender=GalleryProduct)
+def pre_delete_gallery_product(sender, instance, **kwargs):
+	object_current = sender.objects.get(pk=instance.pk)
+
+	print(object_current.images)
