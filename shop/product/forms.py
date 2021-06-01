@@ -49,7 +49,7 @@ class GalleryProductForm(forms.ModelForm):
 		widget=forms.ClearableFileInput(attrs={
 			'multiple': True
 		}),
-		required=False
+		required=True
 	)
 
 	class Meta:

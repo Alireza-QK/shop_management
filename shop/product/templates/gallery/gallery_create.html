@@ -14,18 +14,20 @@
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="{{ form.price.id_for_label }}" class="form-label">قیمت محصول: </label>
-                            {{ form.price }}
-                            {{ form.price.errors }}
+
+                        <div class="col-12 mb-3">
+                            <label for="{{ form.product.id_for_label }}" class="form-label"> محصول مورد نظر انتخاب کنید: </label>
+                            {{ form.product }}
+                            {{ form.product.errors }}
                         </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="{{ form.discount.id_for_label }}" class="form-label">قیمت با تخفیف محصول: </label>
-                            {{ form.discount }}
-                            {{ form.discount.errors }}
+                        <div class="col-12 mb-3">
+                            <label for="{{ form.image.id_for_label }}" class="form-label">قیمت با تخفیف محصول: </label>
+                            {{ form.image }}
+                            <small class="text-form">شما میتوانید برای محصول خود چند تا عکس همزمان انتخاب کنید</small>
+                            {{ form.image.errors }}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success w-100">ذخیره</button>
+                    <button type="submit" class="btn btn-primary w-100">ذخیره</button>
                 </form>
             </div>
         </div>
