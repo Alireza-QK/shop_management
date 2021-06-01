@@ -48,3 +48,14 @@ class GalleryCreateView(CreateView):
 	model = GalleryProduct
 	form_class = GalleryProductForm
 	template_name = 'gallery/gallery_create.html'
+
+	def form_valid(self, form):
+		response = form.save(commit=False)
+		context = {
+			'form': form
+		}
+
+		if form.is_valid():
+			print(form)
+
+		return render(self.request, self.template_name, context)
