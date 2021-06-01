@@ -13,5 +13,5 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-	path('galley_create/', GalleryCreateView.as_view(), name="gallery_create"),
+	path('gallery_create/', GalleryCreateView.as_view(), name="gallery_create"),
 ]
