@@ -18,3 +18,13 @@ class ProductCreateView(CreateView):
 	model = Product
 	form_class = ProductForm
 	template_name = 'product/product_create.html'
+
+	def form_valid(self, form):
+		response = form.save(commit=False)
+		context = {
+			'form': form
+		}
+		if form.is_valid():
+			print(form.cleaned_data)
+
+		return render(self.request, self.template_name, context)
