@@ -25,6 +25,20 @@ class ProductCreateView(CreateView):
 			'form': form
 		}
 		if form.is_valid():
-			print(form.cleaned_data)
+			title = form.cleaned_data.get('title')
+			text = form.cleaned_data.get('text')
+			image = form.cleaned_data.get('image')
+			price = form.cleaned_data.get('price')
+			discount = form.cleaned_data.get('discount')
+			stock_count = form.cleaned_data.get('stock_count')
+
+			Product.objects.create(
+				title=title,
+				text=text,
+				image=image,
+				price=price,
+				discount=discount,
+				stock_count=stock_count
+			)
 
 		return render(self.request, self.template_name, context)
