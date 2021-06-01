@@ -12,8 +12,6 @@ class ProductListView(ListView):
 	model = Product
 	template_name = 'product/product_list.html'
 
-# Show detail product
-
 
 class ProductCreateView(CreateView):
 	model = Product
@@ -44,3 +42,9 @@ class ProductCreateView(CreateView):
 			messages.add_message(self.request, messages.SUCCESS, 'محصول شما با موفقیت ایجاد شد.')
 
 		return render(self.request, self.template_name, context)
+
+
+class GalleryCreateView(CreateView):
+	model = GalleryProduct
+	form_class = GalleryProductForm
+	template_name = 'gallery/gallery_create.html'
