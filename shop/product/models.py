@@ -3,7 +3,7 @@ from django.db import models
 
 class Product(models.Model):
 	title = models.CharField(max_length=254, verbose_name='عنوام محصول')
-	text = models.TextField()
+	text = models.TextField(verbose_name='توضیحات محصول')
 	price = models.BigIntegerField(verbose_name='قیمت', default=0)
 	discount = models.BigIntegerField(verbose_name='قیمت با تخفیف', default=0)
 	image = models.ImageField(verbose_name='تصویر', upload_to='product/images/')
