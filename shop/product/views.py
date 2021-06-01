@@ -18,6 +18,7 @@ class ProductDetailView(DetailView):
 	model = Product
 	template_name = 'product/product_detail.html'
 
+
 class ProductCreateView(CreateView):
 	model = Product
 	form_class = ProductForm
