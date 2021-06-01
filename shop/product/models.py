@@ -42,6 +42,8 @@ class GalleryProduct(models.Model):
 # *********************** Section for model Product ***********************
 @receiver(pre_save, sender=Product)
 def pre_save_product(sender, instance, **kwargs):
+
+	# ********** Section resize image ***********
 	image = Image.open(instance.image)
 	resized_image = image.resize((400, 400))
 	fileName = "%s.%s" % (uuid4(), image.format)
@@ -49,6 +51,25 @@ def pre_save_product(sender, instance, **kwargs):
 	instance.thumbnail = f"product/images/{fileName}"
 	resized_image.save(filePath)
 
+	# ********** this section for remove old image ***************
+	print(instance.pk)
+	if instance.pk:
+		try:
+			old_product_image = Product.objects.get(pk=instance.pk).image
+			old_product_thumbnail = Product.objects.get(pk=instance.pk).thumbnail
+			print(old_product_image)
+			print(old_product_thumbnail)
+		except Product.DoesNotExist:
+			return False
+
+		new_product_image = instance.image
+		new_product_thumbnail = instance.thumbnail
+		print(new_product_image)
+		print(new_product_thumbnail)
+		if old_product_image and old_product_image.url != new_product_image.url and old_product_thumbnail \
+			and old_product_thumbnail.url != new_product_thumbnail.url:
+			os.remove(old_product_image.path)
+			os.remove(old_product_thumbnail.path)
 
 @receiver(pre_delete, sender=Product)
 def pre_delete_product(sender, instance, **kwargs):
