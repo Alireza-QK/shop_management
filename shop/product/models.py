@@ -64,4 +64,5 @@ def pre_delete_product(sender, instance, **kwargs):
 def pre_delete_gallery_product(sender, instance, **kwargs):
 	object_current = sender.objects.get(pk=instance.pk)
 
-	print(object_current.images)
+	if object_current:
+		os.remove(object_current.images.path)
