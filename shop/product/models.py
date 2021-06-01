@@ -34,6 +34,10 @@ class GalleryProduct(models.Model):
 	def __str__(self):
 		return self.product.title
 
+	class Meta:
+		verbose_name = 'گالری'
+		verbose_name_plural = 'گالری ها'
+
 
 @receiver(pre_save, sender=Product)
 def pre_save_product(sender, instance, **kwargs):
