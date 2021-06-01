@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.views.generic import (
 	ListView,
 	CreateView,
+	DetailView,
 )
 from .models import Product, GalleryProduct
 from .forms import ProductForm, GalleryProductForm
@@ -12,6 +13,10 @@ class ProductListView(ListView):
 	model = Product
 	template_name = 'product/product_list.html'
 
+
+class ProductDetailView(DetailView):
+	model = Product
+	template_name = 'product/product_detail.html'
 
 class ProductCreateView(CreateView):
 	model = Product
