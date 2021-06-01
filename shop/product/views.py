@@ -57,7 +57,15 @@ class GalleryCreateView(CreateView):
 		}
 
 		if form.is_valid():
+			product = form.cleaned_data.get('product')
 			images = request.FILES.getlist('image')
+			for image in images:
+				GalleryProduct.objects.create(
+					product=product,
+					images=image
+				)
+			messages.add_message(request, messages.SUCCESS, 'گالری شما با موفقیت ایجاد شد.')
+			print(product)
 			print(images)
 
 		return render(request, self.template_name, context)
