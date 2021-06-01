@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.views.generic import (
 	ListView,
@@ -55,6 +56,7 @@ class ProductUpdateView(UpdateView):
 	model = Product
 	form_class = ProductForm
 	template_name = 'product/product_create.html'
+	success_url = reverse_lazy('product:home')
 
 
 # ********************* Section for Gallery Model *********************
