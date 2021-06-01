@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 from django.views.generic import (
 	ListView,
 	CreateView,
@@ -40,5 +41,6 @@ class ProductCreateView(CreateView):
 				discount=discount,
 				stock_count=stock_count
 			)
+			messages.add_message(self.request, messages.SUCCESS, 'محصول شما با موفقیت ایجاد شد.')
 
 		return render(self.request, self.template_name, context)
