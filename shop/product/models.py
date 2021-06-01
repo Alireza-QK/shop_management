@@ -12,7 +12,7 @@ class Product(models.Model):
 	price = models.BigIntegerField(verbose_name='قیمت', default=0)
 	discount = models.BigIntegerField(verbose_name='قیمت با تخفیف', default=0)
 	image = models.ImageField(verbose_name='تصویر', upload_to='product/images/')
-	thumbnail = models.ImageField(default=None, blank=True, null=True)
+	thumbnail = models.ImageField(upload_to='product/images/', blank=True, null=True)
 	stock_count = models.IntegerField(verbose_name='تعداد موجودی', default=1)
 	sell_count = models.IntegerField(verbose_name='تعداد به فروش رفته', default=0)
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -33,7 +33,7 @@ def pre_save_product(sender, instance, **kwargs):
 	resized_image = image.resize((400, 400))
 	fileName = "%s.%s" % (uuid4(), image.format)
 	filePath = f"{settings.MEDIA_ROOT}/product/images/{fileName}"
-	instance.thumbnail = f"product/images/{filename}"
+	instance.thumbnail = f"product/images/{fileName}"
 	resized_image.save(filePath)
 
 
