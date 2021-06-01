@@ -57,8 +57,6 @@ def pre_save_product(sender, instance, **kwargs):
 		try:
 			old_product_image = Product.objects.get(pk=instance.pk).image
 			old_product_thumbnail = Product.objects.get(pk=instance.pk).thumbnail
-			print(old_product_image)
-			print(old_product_thumbnail)
 		except Product.DoesNotExist:
 			return False
 
@@ -87,3 +85,17 @@ def pre_delete_gallery_product(sender, instance, **kwargs):
 
 	if object_current:
 		os.remove(object_current.images.path)
+
+
+@receiver(pre_save, sender=GalleryProduct)
+def pre_save_gallery_product(sender, instance, **kwargs):
+
+	if instance.pk:
+		try:
+			old_gallery_image = GalleryProduct.objects.get(pk=instance.pk).images
+		except GalleryProduct.DoesNotExist:
+			return False
+
+		new_gallery_image = instance.images
+		if old_gallery_image and old_gallery_image.url != new_gallery_image.url:
+			os.remove(old_gallery_image.path)
