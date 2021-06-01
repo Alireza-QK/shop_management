@@ -20,7 +20,21 @@ class ProductForm(forms.ModelForm):
 
 		if discount < price:
 			return discount
-		raise forms.ValidationError('Please discount is < price')
+		raise forms.ValidationError('قیمت با تخفیف باید از قیمت اصلی محصول کوچک تر باشد.')
+
+	def clean_price(self):
+		price = self.cleaned_data.get('price')
+		if price < 0 or price == 0:
+			raise forms.ValidationError('لطفا یک قیمت درست وارد کنید.')
+
+		return price
+
+	def clean_stock_count(self):
+		stock_count = self.cleaned_data.get('stock_count')
+		if stock_count == 0 or stock_count < 0:
+			raise forms.ValidationError('لطفا تعداد موجودی درست وارد نمایید.')
+
+		return stock_count
 
 
 class GalleryProductForm(forms.ModelForm):
