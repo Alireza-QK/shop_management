@@ -14,7 +14,7 @@ from .forms import ProductForm, GalleryProductForm, GalleryUpdateProductForm
 
 
 # ********************* Section for Product Model *********************
-class ProductListView(ListView):
+class ProductListHomeView(ListView):
 	model = Product
 	template_name = 'product/product_list.html'
 
@@ -60,6 +60,12 @@ class ProductUpdateView(UpdateView):
 	form_class = ProductForm
 	template_name = 'product/product_create.html'
 	success_url = reverse_lazy('product:home')
+
+
+
+class ProductListView(ListView):
+	model = Product
+	template_name = 'product/list_product.html'
 
 
 # ********************* Section for Gallery Model *********************
