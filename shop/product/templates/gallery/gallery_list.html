@@ -13,7 +13,11 @@
                 {% include 'product/_messages.html' %}
                 <ul class="list">
                     {% for gallery in object_list %}
-                        <li><a href="{% url 'product:gallery_update' gallery.pk %}">{{ gallery }}</a></li>
+                        <li class="mb-3">
+                            <a href="{% url 'product:gallery_update' gallery.pk %}">{{ gallery }}</a> -
+                            <a href="{% url 'product:gallery_delete' gallery.pk %}" class="btn btn-danger btn-sm">حذف کردن</a>
+                            <a href="{% url 'product:gallery_update' gallery.pk %}" class="btn btn-primary btn-sm">حذف کردن</a>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
