@@ -91,4 +91,4 @@ class GalleryCreateView(CreateView):
 class GalleryUpdateView(UpdateView):
 	model = GalleryProduct
 	form_class = GalleryProductForm
-	template_name = 'product/gallery/gallery_update.html'
+	template_name = 'gallery/gallery_update.html'
