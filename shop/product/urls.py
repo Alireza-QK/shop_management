@@ -5,6 +5,7 @@ from .views import (
 	ProductCreateView,
 	ProductUpdateView,
 	GalleryCreateView,
+	GalleryUpdateView,
 )
 
 app_name = "product"
@@ -18,5 +19,5 @@ urlpatterns = [
 
 urlpatterns += [
 	path('gallery_create/', GalleryCreateView.as_view(), name="gallery_create"),
-	path('gallery_update/<int:pk>', GalleryCreateView.as_view(), name="gallery_update"),
+	path('gallery_update/<int:pk>', GalleryUpdateView.as_view(), name="gallery_update"),
 ]
