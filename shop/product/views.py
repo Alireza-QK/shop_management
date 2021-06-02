@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
+from django.forms import inlineformset_factory, formset_factory, modelformset_factory
 from django.views.generic import (
 	ListView,
 	CreateView,
@@ -8,7 +9,7 @@ from django.views.generic import (
 	DetailView,
 )
 from .models import Product, GalleryProduct
-from .forms import ProductForm, GalleryProductForm
+from .forms import ProductForm, GalleryProductForm, GalleryUpdateProductForm
 
 
 # ********************* Section for Product Model *********************
@@ -61,6 +62,11 @@ class ProductUpdateView(UpdateView):
 
 
 # ********************* Section for Gallery Model *********************
+class GalleryListView(ListView):
+	model = GalleryProduct
+	template_name = 'gallery/gallery_list.html'
+
+
 class GalleryCreateView(CreateView):
 	model = GalleryProduct
 	form_class = GalleryProductForm
@@ -90,5 +96,7 @@ class GalleryCreateView(CreateView):
 
 class GalleryUpdateView(UpdateView):
 	model = GalleryProduct
-	form_class = GalleryProductForm
+	form_class = GalleryUpdateProductForm
 	template_name = 'gallery/gallery_update.html'
+	success_url = reverse_lazy('product:home')
+

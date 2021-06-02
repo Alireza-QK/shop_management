@@ -13,6 +13,7 @@
                 {% include 'product/_messages.html' %}
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    {{ form.management_data }}
                     <div class="row">
                         {{ form.as_p }}
                     </div>
