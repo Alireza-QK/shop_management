@@ -1,0 +1,51 @@
+{% extends 'product/base.html' %}
+
+{% block title %} صفحه اصلی | مدیریت فروشگاه {% endblock %}
+
+
+{% block content %}
+<div class="container px-4 px-lg-5 mt-5">
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">تصویر</th>
+                <th scope="col">عنوان</th>
+                <th scope="col">قیمت</th>
+                <th scope="col">قیمت با تخفیف</th>
+                <th scope="col">تعداد موجود</th>
+                <th scope="col">تعداد به فروش رفته</th>
+                <th scope="col">تاریخ انتشار</th>
+                <th scope="col">عملیات</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in object_list %}
+             <tr>
+                <th scope="row">{{ product.pk }}</th>
+                <td>
+                    <img src="{{ product.thumbnail.url }}" width="60" height="60" style="border-radius: 200px;">
+                </td>
+                <td>
+                    <a href="#">{{ product.title }}</a>
+                </td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.discount }}</td>
+                <td>{{ product.stock_count }}</td>
+                <td>{{ product.sell_count }}</td>
+                <td>{{ product.created_at|date:"Y d m" }}</td>
+                <td>
+                    <a href="#" class="btn btn-danger btn-sm">حذف</a>
+                    <a href="{% url 'product:product_update' product.pk %}" class="btn btn-info btn-sm">ویرایش</a>
+                </td>
+            </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endblock %}
