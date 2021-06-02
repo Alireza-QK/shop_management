@@ -105,3 +105,4 @@ class GalleryUpdateView(UpdateView):
 class GalleryDeleteView(DeleteView):
 	model = GalleryProduct
 	success_url = reverse_lazy('product:gallery_list')
+	template_name = 'gallery/galleryproduct_confirm_delete.html'
