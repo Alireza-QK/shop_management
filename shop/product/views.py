@@ -6,6 +6,7 @@ from django.views.generic import (
 	ListView,
 	CreateView,
 	UpdateView,
+	DeleteView,
 	DetailView,
 )
 from .models import Product, GalleryProduct
@@ -100,3 +101,7 @@ class GalleryUpdateView(UpdateView):
 	template_name = 'gallery/gallery_update.html'
 	success_url = reverse_lazy('product:home')
 
+
+class GalleryDeleteView(DeleteView):
+	model = GalleryProduct
+	success_url = reverse_lazy('product:gallery_list')
