@@ -18,4 +18,5 @@ urlpatterns = [
 
 urlpatterns += [
 	path('gallery_create/', GalleryCreateView.as_view(), name="gallery_create"),
+	path('gallery_update/<int:pk>', GalleryCreateView.as_view(), name="gallery_update"),
 ]
