@@ -29,7 +29,7 @@
                 <div class="card-body p-4">
                     <div class="text-center">
                         <!-- Product name-->
-                        <a href="#">
+                        <a href="{% url 'product:detail' product.pk %}">
                             <h5 class="fw-bolder">{{ product.title }}</h5>
                         </a>
 
