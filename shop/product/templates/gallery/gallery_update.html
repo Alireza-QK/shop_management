@@ -1,0 +1,25 @@
+{% extends 'product/base.html' %}
+
+{% block title %} ویرایش گالری برای محصولات | مدیریت فروشگاه {% endblock %}
+
+{% block content %}
+<!-- Product section-->
+<section class="py-3">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="fw-bolder text-center text-info mb-5">ویرایش گالری برای محصولات</h1>
+                <hr>
+                {% include 'product/_messages.html' %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        {{ form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">ویرایش کن</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
