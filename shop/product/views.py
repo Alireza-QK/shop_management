@@ -11,6 +11,7 @@ from .models import Product, GalleryProduct
 from .forms import ProductForm, GalleryProductForm
 
 
+# ********************* Section for Product Model *********************
 class ProductListView(ListView):
 	model = Product
 	template_name = 'product/product_list.html'
@@ -85,3 +86,9 @@ class GalleryCreateView(CreateView):
 			print(images)
 
 		return render(request, self.template_name, context)
+
+
+class GalleryUpdateView(UpdateView):
+	model = GalleryProduct
+	form_class = GalleryProductForm
+	template_name = 'product/gallery/gallery_update.html'
