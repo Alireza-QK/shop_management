@@ -1,0 +1,75 @@
+{% extends 'product/base.html' %}
+
+{% block title %} {% endblock %}
+{% block ref_css %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container padding-bottom-3x mb-1">
+
+    <!-- Shopping Cart-->
+    <div class="table-responsive shopping-cart">
+        {% if order != None and orderdetails|length > 0 %}
+            <table class="table">
+            <thead>
+            <tr>
+                <th>تصویر محصول</th>
+                <th>عنوان محصول</th>
+                <th class="text-center">تعداد</th>
+                <th class="text-center">قیمت</th>
+                <th class="text-center">قیمت با تخفیف</th>
+                <th class="text-center">مجمع</th>
+                <th class="text-center">حذف</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for detail in orderdetails %}
+            <tr>
+                <td>
+                    <div class="product-item">
+                        <a class="product-thumb" href="#">
+                            <img src="{{ detail.product.thumbnail.url }}"
+                                 alt="Product" width="80" height="80"></a>
+                    </div>
+                </td>
+                <td>
+                    <div class="product-info">
+                        <h4 class="product-title" style="font-size: 14px;">{{ detail.product.title }}</h4>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="count-input">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input type="number" class="form-control" style="width: 80px;display:inline-block;" name="count" value="{{ detail.count }}">
+                            <button type="submit" class="btn btn-success btn-sm">ویرایش</button>
+                        </form>
+                    </div>
+                </td>
+                <td class="text-center text-lg text-medium">{{ detail.product.price }}</td>
+                <td class="text-center text-lg text-medium">{{ detail.product.discount }}</td>
+                <td class="text-center text-lg text-medium">۰</td>
+                <td class="text-center"><a class="remove-from-cart" href="#"><i class="fa fa-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>شما هنوز هیچ محصولی در سبد خرید وجود ندارد.</p>
+        {% endif %}
+    </div>
+    <div class="shopping-cart-footer">
+
+        <div class="column text-lg">جمع کل قیمت: <span class="text-medium">$289.68</span></div>
+    </div>
+    <div class="shopping-cart-footer">
+        <br>
+        <div class="column">
+            <a href="#" class="btn btn-primary">پرداخت نهایی</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

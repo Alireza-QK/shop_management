@@ -39,6 +39,15 @@ def add_to_cart(request):
 
 
 def cartView(request):
-	context = {}
-	
+	context = {
+		'order': None,
+		'orderdetails': None
+	}
+	order: Order = Order.objects.filter(owner_id=request.user.id, is_paid=False).first()
+
+	if order is not None:
+		context['order'] = order
+		context['orderdetails'] = order.orderdetail_set.all()
+
 	return render(request, 'order/cart.html', context)
+
