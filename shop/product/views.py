@@ -11,6 +11,7 @@ from django.views.generic import (
 )
 from .models import Product, GalleryProduct
 from .forms import ProductForm, GalleryProductForm, GalleryUpdateProductForm
+from order.forms import AddToOrderForm
 
 
 # ********************* Section for Product Model *********************
@@ -22,6 +23,12 @@ class ProductListHomeView(ListView):
 class ProductDetailView(DetailView):
 	model = Product
 	template_name = 'product/product_detail.html'
+	
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		product = kwargs.get('object')
+		context['order_form'] = AddToOrderForm(self.request.POST or None, initial={'product_id': product.id, 'count': 1})
+		return context
 
 
 class ProductCreateView(CreateView):
