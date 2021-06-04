@@ -34,5 +34,5 @@ def add_to_cart(request):
 
 def cartView(request):
 	context = {}
-
+	
 	return render(request, 'order/cart.html', context)
