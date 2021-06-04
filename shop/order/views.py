@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView, TemplateView
+from django.contrib.auth.decorators import login_required
 from .models import Order, OrderDetail
 from .forms import AddToOrderForm
 from product.models import Product
 
 
+@login_required
 def add_to_cart(request):
 	order_form = AddToOrderForm(request.POST or None, initial={'count': 1})
 
