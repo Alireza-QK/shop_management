@@ -17,17 +17,23 @@ def add_to_cart(request):
 			order = Order.objects.create(owner_id=request.user.id, is_paid=False)
 
 		product_id = order_form.cleaned_data.get('product_id')
-		print(product_id)
-
 		count = order_form.cleaned_data.get('count')
 		product = Product.objects.get(id=product_id)
-		print(product)
 
-		order.orderdetail_set.create(
-			product_id=product.id,
-			price=product.price,
-			count=count
-		)
+		# Todo: Check product already added to order detail
+		qs = OrderDetail.objects.filter(product_id=product.id)
+		if qs.exists():
+			for item in qs:
+				item.count += count
+				item.save()
+		else:
+			order.orderdetail_set.create(
+				product_id=product.id,
+				price=product.price,
+				count=count
+			)
+		print(qs, qs.exists())
+		# return qs
 
 		return redirect(reverse('product:detail', kwargs={'pk': product_id}))
 
