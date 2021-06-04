@@ -15,6 +15,10 @@ class Order(models.Model):
 	def __str__(self):
 		return self.owner.username
 
+	def get_total_price_order(self):
+		amount = 0
+		for item in self.orderdetail_set.all():
+			amount += item.price * item.count
 
 class OrderDetail(models.Model):
 	order = models.ForeignKey(Order,on_delete=models.CASCADE, verbose_name='سبد خرید')
