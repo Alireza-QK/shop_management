@@ -19,6 +19,8 @@ class Order(models.Model):
 		amount = 0
 		for item in self.orderdetail_set.all():
 			amount += item.price * item.count
+		return amount
+
 
 class OrderDetail(models.Model):
 	order = models.ForeignKey(Order,on_delete=models.CASCADE, verbose_name='سبد خرید')
