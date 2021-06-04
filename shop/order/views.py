@@ -30,3 +30,9 @@ def add_to_cart(request):
 		)
 
 		return redirect(reverse('product:detail', kwargs={'pk': product_id}))
+
+
+def cartView(request):
+	context = {}
+
+	return render(request, 'order/cart.html', context)
