@@ -63,13 +63,15 @@ def updateCountItem(request, product_id):
 def cartView(request):
 	context = {
 		'order': None,
-		'orderdetails': None
+		'orderdetails': None,
+		'total': 0
 	}
 	order: Order = Order.objects.filter(owner_id=request.user.id, is_paid=False).first()
 
 	if order is not None:
 		context['order'] = order
 		context['orderdetails'] = order.orderdetail_set.all()
+		context['total'] = order.get_total_price_order()
 
 	return render(request, 'order/cart.html', context)
 
