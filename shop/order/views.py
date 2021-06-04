@@ -44,6 +44,10 @@ def add_to_cart(request):
 		return redirect(reverse('product:detail', kwargs={'pk': product_id}))
 
 
+def updateCountItem(request, product_id):
+	pass
+
+
 def cartView(request):
 	context = {
 		'order': None,
