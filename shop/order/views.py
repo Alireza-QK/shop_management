@@ -27,9 +27,15 @@ def add_to_cart(request):
 				item.count += count
 				item.save()
 		else:
+			price_final = 0
+			if product.discount > 0:
+				price_final = product.discount
+			else:
+				price_final = product.price
+
 			order.orderdetail_set.create(
 				product_id=product.id,
-				price=product.price,
+				price=price_final,
 				count=count
 			)
 		print(qs, qs.exists())

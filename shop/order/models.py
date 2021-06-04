@@ -28,3 +28,6 @@ class OrderDetail(models.Model):
 
 	def __str__(self):
 		return self.product.title
+
+	def get_total_price(self):
+		return self.price * self.count
