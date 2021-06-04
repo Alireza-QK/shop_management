@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView, TemplateView
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from .models import Order, OrderDetail
 from .forms import AddToOrderForm
 from product.models import Product
@@ -45,7 +46,18 @@ def add_to_cart(request):
 
 
 def updateCountItem(request, product_id):
-	pass
+	order: Order = Order.objects.filter(owner_id=request.user.id, is_paid=False).first()
+	qs = OrderDetail.objects.filter(product_id=product_id)
+	if qs.exists():
+		count = request.POST.get('count')
+		if int(count) < 0 or int(count) == 0:
+			count = 1
+		for item in qs:
+			item.count = count
+			item.save()
+
+	order.orderdetail_set.all()
+	return redirect(reverse('order:cart'))
 
 
 def cartView(request):

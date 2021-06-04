@@ -41,7 +41,7 @@
                 </td>
                 <td class="text-center">
                     <div class="count-input">
-                        <form action="#" method="post">
+                        <form action="{% url 'order:update_count_item' detail.product.id %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="product_id" value="{{ detail.product.id }}">
                             <input type="number" class="form-control" style="width: 80px;display:inline-block;" name="count" value="{{ detail.count }}">
