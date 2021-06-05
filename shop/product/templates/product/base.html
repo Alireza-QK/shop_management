@@ -52,13 +52,13 @@
             </div>
 
              <ul class="navbar-nav ml-auto ">
-                 <form class="d-flex ml-5">
+                 <li>
                     <a class="btn btn-outline-dark ml-5" href="{% url 'order:cart' %}">
                         <i class="bi-cart-fill me-1"></i>
                         سبد
-                        <span class="badge bg-dark text-white ms-1 rounded-pill ml-5">0</span>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill ml-5">{{ request.session.count }}</span>
                     </a>
-                </form>
+                 </li>
 
                 {% if request.user.is_authenticated %}
                     <li class="nav-item mr-5" style="margin-left: 10px;"><a class="nav-link btn btn-warning btn-sm" href="{% url 'account:logout' %}">خروج</a></li>

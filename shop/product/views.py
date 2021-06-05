@@ -13,12 +13,24 @@ from django.views.generic import (
 from .models import Product, GalleryProduct
 from .forms import ProductForm, GalleryProductForm, GalleryUpdateProductForm
 from order.forms import AddToOrderForm
+from order.models import Order, OrderDetail
 
 
 # ********************* Section for Product Model *********************
 class ProductListHomeView(ListView):
 	model = Product
 	template_name = 'product/product_list.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		
+		if self.request.user.is_authenticated:
+			order = Order.objects.filter(owner_id=self.request.user.id, is_paid=False).first()
+			count = order.orderdetail_set.count()
+			self.request.session['count'] = count
+			context['count'] = count
+
+		return context
 
 
 class ProductDetailView(DetailView):
