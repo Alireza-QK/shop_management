@@ -30,7 +30,8 @@ def add_to_cart(request):
 			for item in qs:
 				stock_count = item.product.stock_count
 				if count > stock_count:
-					raise ValidationError('تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+					messages.add_message(request, messages.ERROR, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+					return redirect(reverse('product:detail', kwargs={'pk': product_id}))
 				else:
 					item.count += count
 					item.product.stock_count -= count
@@ -46,7 +47,8 @@ def add_to_cart(request):
 			
 			# this check product stock count
 			if count > product.stock_count:
-				raise forms.ValidationError('تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+				messages.add_message(request, messages.INFO, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+				return redirect(reverse('product:detail', kwargs={'pk': product_id}))
 			else:
 				if count > 1:
 					product.stock_count -= count
@@ -77,19 +79,20 @@ def updateCountItem(request, product_id):
 			
 			print('value', count)
 			if int(count) > item.product.stock_count:
-				print('this check')
-				print('count now', count)
-				raise ValidationError('تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+				# print('this check')
+				# print('count now', count)
+				messages.add_message(request, messages.ERROR, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+				return redirect(reverse('order:cart'))
 			else:
 				if int(count) > 1:
-					print('01 ',count)
+					# print('01 ',count)
 					item.product.stock_count -= int(count)
 					item.product.save()
 				else:
-					print('02', count)
+					# print('02', count)
 					item.product.stock_count -= 1
 					item.product.save()
-			print('f', count)
+			# print('f', count)
 			item.count += int(count)
 			item.save()
 

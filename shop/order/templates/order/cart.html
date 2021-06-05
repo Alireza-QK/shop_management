@@ -3,6 +3,16 @@
 {% block title %} {% endblock %}
 {% block ref_css %}
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<style>
+    .alert-error {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+</style>
+
+
 {% endblock %}
 
 
@@ -12,6 +22,8 @@
 
     <!-- Shopping Cart-->
     <div class="table-responsive shopping-cart">
+        {% include 'order/_messages.html' %}
+
         {% if order != None and orderdetails|length > 0 %}
             <table class="table">
             <thead>
