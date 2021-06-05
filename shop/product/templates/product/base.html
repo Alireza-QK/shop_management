@@ -20,35 +20,57 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#!">مدیریت فروشگاه</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+            <a class="navbar-brand" href="{% url 'product:home' %}">مدیریت فروشگاه</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"><span
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">صفحه اصلی</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">درباره ما</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">فروشگاه</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">همه محصولات</a></li>
-                            <li>
-                                <hr class="dropdown-divider"/>
-                            </li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                        </ul>
-                    </li>
+                <ul class="navbar-nav mr-auto mb-2 mb-lg-0 ms-lg-4">
+
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'product:home' %}">صفحه اصلی</a></li>
+
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                            data-bs-toggle="dropdown">مدریت فروشگاه</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'product:product_list' %}">لیست محصولات</a></li>
+                                <li><a class="dropdown-item" href="{% url 'product:product_create' %}">افزودن محصول جدید</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                            data-bs-toggle="dropdown">مدریت گالری</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'product:gallery_list' %}">لیست گالری ها</a></li>
+                                <li><a class="dropdown-item" href="{% url 'product:gallery_create' %}">افزودن گالری جدید</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+
                 </ul>
-                <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
+            </div>
+
+             <ul class="navbar-nav ml-auto ">
+                 <form class="d-flex ml-5">
+                    <a class="btn btn-outline-dark ml-5" href="{% url 'order:cart' %}">
                         <i class="bi-cart-fill me-1"></i>
                         سبد
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                    </button>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill ml-5">0</span>
+                    </a>
                 </form>
-            </div>
+
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item mr-5" style="margin-left: 10px;"><a class="nav-link btn btn-warning btn-sm" href="{% url 'account:logout' %}">خروج</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">{{ request.user.get_full_name }}</a></li>
+                    {% else %}
+                    <li class="nav-item mr-5" style="margin-left: 10px;"><a class="nav-link btn btn-info btn-sm" href="{% url 'account:login' %}">ورود</a></li>
+                    <li class="nav-item mr-5" style="margin-left: 10px;"><a class="nav-link btn btn-primary btn-sm" href="{% url 'account:register' %}">ثبت نام</a></li>
+                {% endif %}
+                
+                
+            </ul>
+
         </div>
     </nav>
     {% block main_header %}{% endblock %}
