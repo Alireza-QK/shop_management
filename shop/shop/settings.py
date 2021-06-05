@@ -142,6 +142,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Account user
 AUTH_USER_MODEL = 'account.user'
+LOGIN_REDIRECT_URL = '/login'
+LOGIN_URL = '/login'
+
 
 # Set config email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -82,12 +82,12 @@ class ProductListView(LoginRequiredMixin, ListView):
 
 
 # ********************* Section for Gallery Model *********************
-class GalleryListView(ListView):
+class GalleryListView(LoginRequiredMixin, ListView):
 	model = GalleryProduct
 	template_name = 'gallery/gallery_list.html'
 
 
-class GalleryCreateView(CreateView):
+class GalleryCreateView(LoginRequiredMixin, CreateView):
 	model = GalleryProduct
 	form_class = GalleryProductForm
 	template_name = 'gallery/gallery_create.html'
@@ -114,14 +114,14 @@ class GalleryCreateView(CreateView):
 		return render(request, self.template_name, context)
 
 
-class GalleryUpdateView(UpdateView):
+class GalleryUpdateView(LoginRequiredMixin, UpdateView):
 	model = GalleryProduct
 	form_class = GalleryUpdateProductForm
 	template_name = 'gallery/gallery_update.html'
 	success_url = reverse_lazy('product:home')
 
 
-class GalleryDeleteView(DeleteView):
+class GalleryDeleteView(LoginRequiredMixin, DeleteView):
 	model = GalleryProduct
 	success_url = reverse_lazy('product:gallery_list')
 	template_name = 'gallery/galleryproduct_confirm_delete.html'
