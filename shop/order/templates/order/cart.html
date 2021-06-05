@@ -21,6 +21,7 @@
                 <th class="text-center">تعداد</th>
                 <th class="text-center">قیمت</th>
                 <th class="text-center">مجمع</th>
+                <th class="text-center">تعداد موجود</th>
                 <th class="text-center">حذف</th>
             </tr>
             </thead>
@@ -40,17 +41,23 @@
                     </div>
                 </td>
                 <td class="text-center">
+                    {% if detail.product.stock_count > 0 %}
                     <div class="count-input">
                         <form action="{% url 'order:update_count_item' detail.product.id %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="product_id" value="{{ detail.product.id }}">
-                            <input type="number" class="form-control" style="width: 80px;display:inline-block;" name="count" value="{{ detail.count }}">
+                            <input type="number" class="form-control" style="width: 80px;display:inline-block;" name="count" value="1">
+                            <span>{{ detail.count }}</span>
                             <button type="submit" class="btn btn-success btn-sm">ویرایش</button>
                         </form>
                     </div>
+                        {% else %}
+                            <span>{{ detail.count }}</span>
+                    {% endif %}
                 </td>
                 <td class="text-center text-lg text-medium">{{ detail.price }}</td>
                 <td class="text-center text-lg text-medium">{{ detail.get_total_price }}</td>
+                <td class="text-center text-lg text-medium">{{ detail.product.stock_count }}</td>
                 <td class="text-center"><a class="remove-from-cart" href="#"><i class="fa fa-trash"></i></a></td>
 
             </tr>

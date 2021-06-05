@@ -68,12 +68,29 @@ def add_to_cart(request):
 def updateCountItem(request, product_id):
 	order: Order = Order.objects.filter(owner_id=request.user.id, is_paid=False).first()
 	qs = OrderDetail.objects.filter(product_id=product_id)
+
 	if qs.exists():
 		count = request.POST.get('count')
 		if int(count) < 0 or int(count) == 0:
 			count = 1
 		for item in qs:
-			item.count = count
+			
+			print('value', count)
+			if int(count) > item.product.stock_count:
+				print('this check')
+				print('count now', count)
+				raise ValidationError('تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+			else:
+				if int(count) > 1:
+					print('01 ',count)
+					item.product.stock_count -= int(count)
+					item.product.save()
+				else:
+					print('02', count)
+					item.product.stock_count -= 1
+					item.product.save()
+			print('f', count)
+			item.count += int(count)
 			item.save()
 
 	order.orderdetail_set.all()
