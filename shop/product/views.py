@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.forms import inlineformset_factory, formset_factory, modelformset_factory
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
 	ListView,
 	CreateView,
@@ -31,7 +32,7 @@ class ProductDetailView(DetailView):
 		return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
 	model = Product
 	form_class = ProductForm
 	template_name = 'product/product_create.html'
@@ -62,20 +63,20 @@ class ProductCreateView(CreateView):
 		return render(self.request, self.template_name, context)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
 	model = Product
 	form_class = ProductForm
 	template_name = 'product/product_create.html'
 	success_url = reverse_lazy('product:home')
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
 	model = Product
 	template_name = 'product/product_confirm_delete.html'
 	success_url = reverse_lazy('product:product_list')
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
 	model = Product
 	template_name = 'product/list_product.html'
 
