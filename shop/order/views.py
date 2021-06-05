@@ -3,6 +3,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView, TemplateView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib import messages
+from django.core.exceptions import ValidationError
 from .models import Order, OrderDetail
 from .forms import AddToOrderForm
 from product.models import Product
@@ -24,15 +26,33 @@ def add_to_cart(request):
 		# Todo: Check product already added to order detail
 		qs = OrderDetail.objects.filter(product_id=product.id)
 		if qs.exists():
+			print(count)
 			for item in qs:
-				item.count += count
-				item.save()
+				stock_count = item.product.stock_count
+				if count > stock_count:
+					raise ValidationError('تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+				else:
+					item.count += count
+					item.product.stock_count -= count
+					item.save()
+					item.product.save()
 		else:
+			# this check discount and price
 			price_final = 0
 			if product.discount > 0:
 				price_final = product.discount
 			else:
 				price_final = product.price
+			
+			# this check product stock count
+			if count > product.stock_count:
+				raise forms.ValidationError('تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+			else:
+				if count > 1:
+					product.stock_count -= count
+				else:
+					product.stock_count -= 1
+				product.save()
 
 			order.orderdetail_set.create(
 				product_id=product.id,

@@ -31,18 +31,24 @@
                     {% endif %}
                 </div>
                 <div class="fs-5 mb-5">
-                    <span>تعداد موجود: {{ object.stock_count }}</span>
+                    {% if object.stock_count > 0 %}
+                        <span>تعداد موجود: {{ object.stock_count }}</span>
+                        {% else %}
+                        <span>تعداد موجود: تمام محصول</span>
+                    {% endif %}
                 </div>
                 <div class="d-flex">
-                    <form action="{% url 'order:add_to_cart' %}" method="post">
-                        {%  csrf_token %}
-                        {{ order_form.product_id }}
-                        <div class="form-group">
-                            <label for="{{ order_form.count.id_for_label }}">تعداد: </label>
-                            {{ order_form.count }}
-                        </div>
-                        <button type="submit" class="btn btn-primary">اضافه کردن به سبد</button>
-                    </form>
+                    {% if object.stock_count > 0 %}
+                        <form action="{% url 'order:add_to_cart' %}" method="post">
+                            {%  csrf_token %}
+                            {{ order_form.product_id }}
+                            <div class="form-group">
+                                <label for="{{ order_form.count.id_for_label }}">تعداد: </label>
+                                {{ order_form.count }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">اضافه کردن به سبد</button>
+                        </form>
+                    {% endif %}
                 </div>
                 <br>
                 {{ object.text|safe }}

@@ -26,9 +26,16 @@ class ProductListHomeView(ListView):
 		
 		if self.request.user.is_authenticated:
 			order = Order.objects.filter(owner_id=self.request.user.id, is_paid=False).first()
-			count = order.orderdetail_set.count()
-			self.request.session['count'] = count
-			context['count'] = count
+			if order is not None:
+				count = order.orderdetail_set.count()
+				self.request.session['count'] = count
+				if count > 0:
+					if self.request.session.has_key('count'):
+						self.request.session['count'] = count
+					else:
+						self.request.session['count'] = 0
+						
+				context['count'] = count
 
 		return context
 
