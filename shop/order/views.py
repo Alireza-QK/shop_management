@@ -24,19 +24,22 @@ def add_to_cart(request):
 		product = Product.objects.get(id=product_id)
 
 		# Todo: Check product already added to order detail
-		qs = OrderDetail.objects.filter(product_id=product.id)
+		qs = OrderDetail.objects.filter(product_id=product.id, order_id=order.id)
 		if qs.exists():
 			print(count)
 			for item in qs:
 				stock_count = item.product.stock_count
+
 				if count > stock_count:
 					messages.add_message(request, messages.ERROR, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
 					return redirect(reverse('product:detail', kwargs={'pk': product_id}))
 				else:
 					item.count += count
 					item.product.stock_count -= count
-					item.save()
 					item.product.save()
+				
+				item.save()
+					
 		else:
 			# this check discount and price
 			price_final = 0
@@ -50,11 +53,13 @@ def add_to_cart(request):
 				messages.add_message(request, messages.INFO, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
 				return redirect(reverse('product:detail', kwargs={'pk': product_id}))
 			else:
+				print('count', count)
 				if count > 1:
 					product.stock_count -= count
 				else:
 					product.stock_count -= 1
 				product.save()
+			print('f', count)
 
 			order.orderdetail_set.create(
 				product_id=product.id,
@@ -69,7 +74,7 @@ def add_to_cart(request):
 
 def updateCountItem(request, product_id):
 	order: Order = Order.objects.filter(owner_id=request.user.id, is_paid=False).first()
-	qs = OrderDetail.objects.filter(product_id=product_id)
+	qs = OrderDetail.objects.filter(product_id=product_id, order_id=order)
 
 	if qs.exists():
 		count = request.POST.get('count')
