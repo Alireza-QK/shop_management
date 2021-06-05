@@ -34,6 +34,7 @@ class ProductListHomeView(ListView):
 						self.request.session['count'] = count
 					else:
 						self.request.session['count'] = 0
+				self.request.session['count'] = count
 						
 				context['count'] = count
 
@@ -46,6 +47,20 @@ class ProductDetailView(DetailView):
 	
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+
+		# check count items
+		if self.request.user.is_authenticated:
+			order = Order.objects.filter(owner_id=self.request.user.id, is_paid=False).first()
+			if order is not None:
+				count = order.orderdetail_set.count()
+				self.request.session['count'] = count
+				if count > 0:
+					if self.request.session.has_key('count'):
+						self.request.session['count'] = count
+					else:
+						self.request.session['count'] = 0
+				self.request.session['count'] = count
+
 		product = kwargs.get('object')
 		context['order_form'] = AddToOrderForm(self.request.POST or None, initial={'product_id': product.id, 'count': 1})
 		return context
