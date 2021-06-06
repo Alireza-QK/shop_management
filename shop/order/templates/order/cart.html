@@ -40,6 +40,7 @@
             <tbody>
             {% for detail in orderdetails %}
             <tr>
+                
                 <td>
                     <div class="product-item">
                         <a class="product-thumb" href="#">
@@ -70,7 +71,9 @@
                 <td class="text-center text-lg text-medium">{{ detail.price }}</td>
                 <td class="text-center text-lg text-medium">{{ detail.get_total_price }}</td>
                 <td class="text-center text-lg text-medium">{{ detail.product.stock_count }}</td>
-                <td class="text-center"><a class="remove-from-cart" href="#"><i class="fa fa-trash"></i></a></td>
+                <td class="text-center">
+                    <a class="remove-from-cart" href="{% url 'order:remove_item_cart' detail.id %}"><i class="fa fa-trash"></i></a>
+                </td>
 
             </tr>
             {% endfor %}

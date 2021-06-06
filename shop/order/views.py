@@ -110,6 +110,30 @@ def updateCountItem(request, product_id):
 	return redirect(reverse('order:cart'))
 
 
+@login_required
+def removItemCart(request, product_id):
+	# print(order_id)
+	order: Order = Order.objects.filter(owner_id=request.user.id, is_paid=False).first()
+	qs = OrderDetail.objects.filter(product_id=product_id, order_id=order.id)
+
+	# result = order.orderdetail_set.product
+	items = order.orderdetail_set.all()
+	for item in items:
+		if product_id == item.id:
+			item.product.stock_count += item.count
+			item.count = 0
+			item.product.save()
+			item.save()
+			item.delete()
+			# print(request.session.get('count'))
+			
+			return redirect(reverse('order:cart'))
+		print('product id', product_id)
+		print('item id', item.id)
+
+	return redirect(reverse('product:home'))
+
+
 def cartView(request):
 	context = {
 		'order': None,
