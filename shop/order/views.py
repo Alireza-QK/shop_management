@@ -14,92 +14,97 @@ from product.models import Product
 def add_to_cart(request):
 	order_form = AddToOrderForm(request.POST or None, initial={'count': 1})
 
-	if order_form.is_valid():
-		order = Order.objects.filter(owner_id=request.user.id, is_paid=False).first()
-		if order is None:
-			order = Order.objects.create(owner_id=request.user.id, is_paid=False)
+	if request.method == 'POST':
+		if order_form.is_valid():
+			order = Order.objects.filter(owner_id=request.user.id, is_paid=False).first()
+			if order is None:
+				order = Order.objects.create(owner_id=request.user.id, is_paid=False)
 
-		product_id = order_form.cleaned_data.get('product_id')
-		count = order_form.cleaned_data.get('count')
-		product = Product.objects.get(id=product_id)
+			product_id = order_form.cleaned_data.get('product_id')
+			count = order_form.cleaned_data.get('count')
+			product = Product.objects.get(id=product_id)
 
-		# Todo: Check product already added to order detail
-		qs = OrderDetail.objects.filter(product_id=product.id, order_id=order.id)
-		if qs.exists():
-			print(count)
-			for item in qs:
-				stock_count = item.product.stock_count
+			# Todo: Check product already added to order detail
+			qs = OrderDetail.objects.filter(product_id=product.id, order_id=order.id)
+			if qs.exists():
+				print(count)
+				for item in qs:
+					stock_count = item.product.stock_count
 
-				if count > stock_count:
-					messages.add_message(request, messages.ERROR, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+					if count > stock_count:
+						messages.add_message(request, messages.ERROR, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+						return redirect(reverse('product:detail', kwargs={'pk': product_id}))
+					else:
+						item.count += count
+						item.product.stock_count -= count
+						item.product.save()
+					
+					item.save()
+						
+			else:
+				# this check discount and price
+				price_final = 0
+				if product.discount > 0:
+					price_final = product.discount
+				else:
+					price_final = product.price
+				
+				# this check product stock count
+				if count > product.stock_count:
+					messages.add_message(request, messages.INFO, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
 					return redirect(reverse('product:detail', kwargs={'pk': product_id}))
 				else:
-					item.count += count
-					item.product.stock_count -= count
-					item.product.save()
-				
-				item.save()
-					
-		else:
-			# this check discount and price
-			price_final = 0
-			if product.discount > 0:
-				price_final = product.discount
-			else:
-				price_final = product.price
-			
-			# this check product stock count
-			if count > product.stock_count:
-				messages.add_message(request, messages.INFO, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
-				return redirect(reverse('product:detail', kwargs={'pk': product_id}))
-			else:
-				print('count', count)
-				if count > 1:
-					product.stock_count -= count
-				else:
-					product.stock_count -= 1
-				product.save()
-			print('f', count)
+					print('count', count)
+					if count > 1:
+						product.stock_count -= count
+					else:
+						product.stock_count -= 1
+					product.save()
+				print('f', count)
 
-			order.orderdetail_set.create(
-				product_id=product.id,
-				price=price_final,
-				count=count
-			)
-		print(qs, qs.exists())
-		# return qs
+				order.orderdetail_set.create(
+					product_id=product.id,
+					price=price_final,
+					count=count
+				)
+			print(qs, qs.exists())
+			# return qs
 
-		return redirect(reverse('product:detail', kwargs={'pk': product_id}))
+			return redirect(reverse('product:detail', kwargs={'pk': product_id}))
+
+	return render(reverse('order:cart'))
 
 
+@login_required
 def updateCountItem(request, product_id):
 	order: Order = Order.objects.filter(owner_id=request.user.id, is_paid=False).first()
 	qs = OrderDetail.objects.filter(product_id=product_id, order_id=order)
 
-	if qs.exists():
-		count = request.POST.get('count')
-		if int(count) < 0 or int(count) == 0:
-			count = 1
-		for item in qs:
-			
-			print('value', count)
-			if int(count) > item.product.stock_count:
-				# print('this check')
-				# print('count now', count)
-				messages.add_message(request, messages.ERROR, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
-				return redirect(reverse('order:cart'))
-			else:
-				if int(count) > 1:
-					# print('01 ',count)
-					item.product.stock_count -= int(count)
-					item.product.save()
+	if request.method == 'POST':
+		if qs.exists():
+			count = request.POST.get('count')
+			if int(count) < 0 or int(count) == 0:
+				count = 1
+			for item in qs:
+				
+				print('value', count)
+				if int(count) > item.product.stock_count:
+					# print('this check')
+					# print('count now', count)
+					messages.add_message(request, messages.ERROR, 'تعداد خرید شما بزرگ تر از موجودی محصول می باشد. لطفا عدد درست وارد نمایید.')
+					return redirect(reverse('order:cart'))
 				else:
-					# print('02', count)
-					item.product.stock_count -= 1
-					item.product.save()
-			# print('f', count)
-			item.count += int(count)
-			item.save()
+					if int(count) > 1:
+						# print('01 ',count)
+						item.product.stock_count -= int(count)
+						item.product.save()
+					else:
+						# print('02', count)
+						item.product.stock_count -= 1
+						item.product.save()
+				# print('f', count)
+				item.count += int(count)
+				item.save()
 
 	order.orderdetail_set.all()
 	return redirect(reverse('order:cart'))
