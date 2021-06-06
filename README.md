@@ -20,8 +20,17 @@
 - and use ``` FLUSH PRIVILEGES; ```
 
 ## Config seeting.py in your project:
-- open `` settings.py `` on your folder project
-- change config database
+- open `` shop/settings.py `` on your folder project
+- change config database this section ``` DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'DATABASE NAME',
+		'USER': 'USERNAME',
+		'PASSWORD': 'PASSWORD',
+		'HOST': 'localhost',
+		'PORT': '3306',
+	}
+} ```
 
 
 ## to use this app:
